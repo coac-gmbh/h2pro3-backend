@@ -6,11 +6,7 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_2a03bfc35e23_key -iv $encrypted_2a03bfc35e23_iv
   -in dokku-deploy.key.enc -out .travis/dokku-deploy.key -d
 - chmod +x .travis/deploy.sh
-after_success:
-- |
-  if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
-    bash .travis/deploy.sh;
-  fi;
+- bash .travis/deploy.sh
 env:
   global:
   - secure: qaP2o05oeOsta3zpPyOc4swjCR4bSNuDsBbLMcpdolzVxc+48KegpOZcJPL80/KUZVV6Xt/5x5zPjD9vFVL3tA99ckIs0wOJDAVRB8yn8U2oJ2SZ94QZ/7OwWFabbmQInqXlqKQjltIYIdErTNtWicmSfOjJWGBlioB0IdzIOXaG2RGXLW21pIsseUwghepzjAKcer9tF5gD1mnbsn4iQ3KMO9zFYTsRrzHQFD2e25CtYhxgyvmUKMy0b5w0piD0+Rp/4857dMdSMH/C4lqGzAn3PXWsLW0yTrzgjoXmLgtnyU2Mb9U6BexvLddT8srD84WOKqAt1mzuovJs4uG/6EyaN3taLrsaK5gXMI3sRv/Hfzp8tDYF8ILt9oLTLyDX3GbzJuoxAAOoz1JBo9aU1I4Ndbk+xxbS5+accrm9/gEphrvwIkHpG+UECMq4bt2wKZl6Jb1dC5sW1TE+gAOZ+1lzxJLCYnDahNA9ggM2zb75yyCcDb1Ur4weTKB3+18myl5+++Fo/oji8ZHGQmT4H1eqn+sOzeV/qaZzHdkyYonZB8xbBuGo4mezL+UixU/hm2D0RjY1dC1UGP1iNjBiN7N9L4uPyDZn5xv+ozsFrAJ5DekfaNaxsg9tSW6hMbWv2CFf5vu+xGdozAP20FjIwC66UzKItBsYSD6h3WEYvFU=
