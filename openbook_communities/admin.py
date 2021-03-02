@@ -4,8 +4,7 @@ from openbook_communities.models import Community
 
 
 class CommunityAdmin(admin.ModelAdmin):
-    def has_add_permission(self, request, obj=None):
-        return False
+    pass
 
 
 admin.site.register(Community, CommunityAdmin)
