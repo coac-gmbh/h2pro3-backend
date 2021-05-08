@@ -36,11 +36,11 @@ class Register(APIView):
         name = data.get('name')
         username = data.get('username')
         avatar = data.get('avatar')
-        token = data.get('token')
+        # token = data.get('token')
         User = get_user_model()
         UserInvite = get_user_invite_model()
 
-        user_invite = UserInvite.get_invite_for_token(token=token)
+        # user_invite = UserInvite.get_invite_for_token(token=token)
 
         if not username:
             username = user_invite.username
@@ -50,10 +50,10 @@ class Register(APIView):
 
         with transaction.atomic():
             new_user = User.create_user(username=username, email=email, password=password, name=name, avatar=avatar,
-                                        is_of_legal_age=is_of_legal_age, badge=user_invite.badge,
+                                        is_of_legal_age=is_of_legal_age,
                                         are_guidelines_accepted=are_guidelines_accepted)
-            user_invite.created_user = new_user
-            user_invite.save()
+            # user_invite.created_user = new_user
+            # user_invite.save()
 
         user_auth_token = new_user.auth_token
 
@@ -62,22 +62,22 @@ class Register(APIView):
             'username': new_user.username
         }, status=status.HTTP_201_CREATED)
 
-
 class VerifyRegistrationToken(APIView):
     """
     The API to verify a registration token
     """
 
     def post(self, request):
+        print('1')
         serializer = RegisterTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         validated_data = serializer.validated_data
-        token = validated_data.get('token')
+        # token = validated_data.get('token')
 
         UserInvite = get_user_invite_model()
 
         # raises error if invalid
-        UserInvite.check_token_is_valid(token=token)
+        # UserInvite.check_token_is_valid(token=token)
 
         return ApiMessageResponse(_('Token valid'), status=status.HTTP_202_ACCEPTED)
 
