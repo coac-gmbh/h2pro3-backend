@@ -4,6 +4,8 @@
 *.pyc
 /.env
 /.old.env
+venv/
+local/
 reports
 .coverage
 coverage.xml
