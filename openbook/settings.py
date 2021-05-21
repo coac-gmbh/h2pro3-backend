@@ -281,6 +281,12 @@ if IS_BUILD or TESTING:
             'NAME': 'open-book-api'
         }
     }
+elif os.environ.get('DATABASE_URL'):
+    import dj_database_url
+
+    DATABASES = {
+        'default': dj_database_url.config()
+    }
 else:
     RDS_DB_NAME = os.environ.get('RDS_DB_NAME')
     RDS_USERNAME = os.environ.get('RDS_USERNAME')
