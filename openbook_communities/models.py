@@ -24,9 +24,10 @@ from openbook_communities.validators import community_name_characters_validator
 from openbook_moderation.models import ModeratedObject, ModerationCategory
 from openbook_posts.models import Post
 from imagekit.models import ProcessedImageField
+from hydrogen.models import GroupMixin
 
 
-class Community(models.Model):
+class Community(GroupMixin):
     moderated_object = GenericRelation(ModeratedObject, related_query_name='communities')
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_communities', null=False,
                                 blank=False)
@@ -68,7 +69,8 @@ class Community(models.Model):
     )
 
     class Meta:
-        verbose_name_plural = 'communities'
+        verbose_name = 'Group'
+        verbose_name_plural = 'Groups'
 
     @classmethod
     def is_user_with_username_invited_to_community_with_name(cls, username, community_name):
