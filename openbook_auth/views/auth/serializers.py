@@ -25,7 +25,7 @@ class RegisterSerializer(serializers.Serializer):
     avatar = RestrictedImageFileSizeField(allow_empty_file=True, required=False,
                                           max_upload_size=settings.PROFILE_AVATAR_MAX_SIZE)
     email = serializers.EmailField(validators=[email_not_taken_validator])
-    token = serializers.CharField()
+    token = serializers.CharField(allow_blank=True)
 
 
 class RegisterTokenSerializer(serializers.Serializer):
