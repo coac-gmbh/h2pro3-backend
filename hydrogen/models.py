@@ -16,7 +16,7 @@ class GroupMixin(models.Model):
         (GROUP_TYPE_UNIVERSITY, 'University'),
     )
     group_type = models.CharField(blank=True, null=True, choices=GROUP_TYPES, max_length=1)
-    about_us = models.TextField(_('about us'), max_length=settings.GROUP_RULES_MAX_LENGTH,
+    about_us = models.TextField(_('about us'), max_length=settings.GROUP_ABOUT_US_MAX_LENGTH,
                                 blank=True, null=True)
     website = models.URLField(_('website'), max_length=settings.GROUP_WEBSITE_MAX_LENGTH,
                               blank=True, null=True)
@@ -37,7 +37,7 @@ class GroupMixin(models.Model):
     # University fields
     institution = models.CharField(_('institution'), max_length=settings.GROUP_INSTITUTION_MAX_LENGTH,
                                    blank=True, null=True)
-    departments = models.CharField(_('departments'), max_length=settings.GROUP_DEPARTMENT_MAX_LENGTH,
+    departments = models.TextField(_('departments'), max_length=settings.GROUP_DEPARTMENT_MAX_LENGTH,
                                   blank=True, null=True)
 
     class Meta:
