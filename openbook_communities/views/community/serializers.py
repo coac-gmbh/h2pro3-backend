@@ -57,6 +57,15 @@ class UpdateCommunitySerializer(serializers.Serializer):
                                   validators=[hex_color_validator])
 
 
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Community
+        fields = ['type', 'name', 'title', 'description', 'rules', 'cover', 'avatar',
+                  'user_adjective', 'users_adjective', 'invites_enabled',
+                  'color', 'about_us', 'website', 'population', 'area', 'energy_demand',
+                  'industry', 'employee', 'location', 'group_type', 'institution', 'departments']
+
+
 class UpdateCommunityAvatarSerializer(serializers.Serializer):
     avatar = RestrictedImageFileSizeField(allow_empty_file=False, required=True,
                                           max_upload_size=settings.COMMUNITY_AVATAR_MAX_SIZE)
@@ -227,6 +236,17 @@ class LegacyGetCommunityCommunitySerializer(serializers.ModelSerializer):
             'is_creator',
             'is_favorite',
             'is_reported',
+            'group_type',
+            'about_us',
+            'website',
+            'population',
+            'area',
+            'energy_demand',
+            'industry',
+            'employee',
+            'location',
+            'institution',
+            'departments',
             'memberships',
         )
 

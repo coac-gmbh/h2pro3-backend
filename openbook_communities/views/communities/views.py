@@ -14,6 +14,9 @@ from openbook_communities.views.communities.serializers import CreateCommunitySe
     CommunitiesCommunitySerializer, CommunityNameCheckSerializer, \
     GetFavoriteCommunitiesSerializer, GetJoinedCommunitiesSerializer, TrendingCommunitiesSerializer, \
     GetModeratedCommunitiesSerializer, GetAdministratedCommunitiesSerializer, SuggestedCommunitiesCommunitySerializer
+from openbook_communities.views.community.serializers import GroupSerializer
+from openbook_communities.models import CommunityMembership
+from django.http import HttpResponseBadRequest
 
 
 class Communities(APIView):
@@ -22,36 +25,15 @@ class Communities(APIView):
     def put(self, request):
         request_data = normalise_request_data(request.data)
         normalize_list_value_in_request_data(list_name='categories', request_data=request_data)
-
-        serializer = CreateCommunitySerializer(data=request_data)
-        serializer.is_valid(raise_exception=True)
-
-        data = serializer.validated_data
-        name = data.get('name')
-        type = data.get('type')
-        title = data.get('title')
-        description = data.get('description')
-        rules = data.get('rules')
-        avatar = data.get('avatar')
-        cover = data.get('cover')
-        color = data.get('color')
-        user_adjective = data.get('user_adjective')
-        users_adjective = data.get('users_adjective')
-        categories = data.get('categories')
-        invites_enabled = data.get('invites_enabled')
-
-        user = request.user
-
-        with transaction.atomic():
-            community = user.create_community(name=name, title=title, description=description, rules=rules,
-                                              avatar=avatar, cover=cover
-                                              , type=type, color=color, categories_names=categories,
-                                              users_adjective=users_adjective, user_adjective=user_adjective,
-                                              invites_enabled=invites_enabled)
-
-        response_serializer = CommunitiesCommunitySerializer(community, context={"request": request})
-
-        return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        serializer = GroupSerializer(data=request_data)
+        if serializer.is_valid(raise_exception=True):
+            community = serializer.save(creator=request.user)
+            CommunityMembership.create_membership(user=request.user, is_administrator=True, is_moderator=False,
+                                                  community=community)
+            community.set_categories_with_names(categories_names=request_data['categories'])
+            response_serializer = CommunitiesCommunitySerializer(community, context={"request": request})
+            return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+        return HttpResponseBadRequest()
 
     def get(self, request):
         query_params = request.query_params.dict()

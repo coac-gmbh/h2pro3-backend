@@ -37,7 +37,7 @@ class GroupMixin(models.Model):
     # University fields
     institution = models.CharField(_('institution'), max_length=settings.GROUP_INSTITUTION_MAX_LENGTH,
                                    blank=True, null=True)
-    department = models.CharField(_('department'), max_length=settings.GROUP_DEPARTMENT_MAX_LENGTH,
+    departments = models.CharField(_('departments'), max_length=settings.GROUP_DEPARTMENT_MAX_LENGTH,
                                   blank=True, null=True)
 
     class Meta:
