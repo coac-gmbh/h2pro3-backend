@@ -11,9 +11,10 @@ from openbook_communities.views.community.serializers import GetCommunityCommuni
     UpdateCommunitySerializer, UpdateCommunityAvatarSerializer, UpdateCommunityCoverSerializer, GetCommunitySerializer, \
     FavoriteCommunitySerializer, CommunityAvatarCommunitySerializer, CommunityCoverCommunitySerializer, \
     FavoriteCommunityCommunitySerializer, TopPostCommunityExclusionSerializer, \
-    SubscribeToCommunityNotificationsSerializer, \
+    SubscribeToCommunityNotificationsSerializer, GroupSerializer, \
     SubscribeToCommunityNotificationsCommunitySerializer, LegacyGetCommunityCommunitySerializer
 from django.utils.translation import ugettext_lazy as _
+from django.http import HttpResponseBadRequest
 
 
 class CommunityItem(APIView):
@@ -45,36 +46,17 @@ class CommunityItem(APIView):
     def patch(self, request, community_name):
         request_data = normalise_request_data(request.data)
         normalize_list_value_in_request_data(list_name='categories', request_data=request_data)
-        request_data['community_name'] = community_name
+        from openbook_communities.models import Community
+        community = Community.objects.get(name=community_name)
+        serializer = GroupSerializer(community, data=request_data, partial=True)
 
-        serializer = UpdateCommunitySerializer(data=request_data)
-        serializer.is_valid(raise_exception=True)
-
-        data = serializer.validated_data
-        name = data.get('name')
-        type = data.get('type')
-        color = data.get('color')
-        title = data.get('title')
-        description = data.get('description')
-        rules = data.get('rules')
-        user_adjective = data.get('user_adjective')
-        users_adjective = data.get('users_adjective')
-        categories = data.get('categories')
-        invites_enabled = data.get('invites_enabled')
-
-        user = request.user
-
-        with transaction.atomic():
-            community = user.update_community_with_name(community_name, name=name, type=type, title=title,
-                                                        description=description,
-                                                        color=color,
-                                                        rules=rules, user_adjective=user_adjective,
-                                                        users_adjective=users_adjective, categories_names=categories,
-                                                        invites_enabled=invites_enabled)
-        community_serializer = self._get_community_serializer()
-        response_serializer = community_serializer(community, context={"request": request})
-
-        return Response(response_serializer.data, status=status.HTTP_200_OK)
+        if serializer.is_valid(raise_exception=True):
+            community = serializer.save()
+            community.set_categories_with_names(categories_names=request_data['categories'])
+            community_serializer = self._get_community_serializer()
+            response_serializer = community_serializer(community, context={"request": request})
+            return Response(response_serializer.data, status=status.HTTP_200_OK)
+        return HttpResponseBadRequest()
 
     def _get_community_serializer(self):
         if self.request.version == '1.0':
