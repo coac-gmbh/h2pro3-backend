@@ -6,7 +6,7 @@ COPY requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 # Setup workdir
-RUN mkdir /src
-WORKDIR /src
+RUN mkdir /opt/okuna-api
+WORKDIR /opt/okuna-api
 
-COPY . /src
+COPY . /opt/okuna-api
