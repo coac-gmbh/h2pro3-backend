@@ -1,0 +1,1 @@
+default_app_config = 'openbook_categories.apps.OpenbookCategoriesConfig'
