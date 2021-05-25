@@ -30,7 +30,7 @@ class Communities(APIView):
             community = serializer.save(creator=request.user)
             CommunityMembership.create_membership(user=request.user, is_administrator=True, is_moderator=False,
                                                   community=community)
-            community.set_categories_with_names(categories_names=request_data['categories'])
+            community.set_categories_with_names(categories_names=request_data.get('categories', []))
             response_serializer = CommunitiesCommunitySerializer(community, context={"request": request})
             return Response(response_serializer.data, status=status.HTTP_201_CREATED)
         return HttpResponseBadRequest()
