@@ -40,8 +40,5 @@ class GroupMixin(models.Model):
     department = models.CharField(_('department'), max_length=settings.GROUP_DEPARTMENT_MAX_LENGTH,
                                   blank=True, null=True)
 
-    def set_categories_with_names(self):
-        pass
-
     class Meta:
         abstract = True
