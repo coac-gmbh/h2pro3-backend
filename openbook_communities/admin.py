@@ -15,7 +15,7 @@ class CommunityAdmin(admin.ModelAdmin):
         ('H2pro3', {'fields': ('group_type', 'about_us', 'website')}),
         ('City', {'classes': ['collapse'], 'fields': ('population', 'area', 'energy_demand')}),
         ('Company', {'classes': ['collapse'], 'fields': ('industry', 'employee', 'location')}),
-        ('University', {'classes': ['collapse'], 'fields': ('institution', 'department')}),
+        ('University', {'classes': ['collapse'], 'fields': ('institution', 'departments')}),
     ]
     inlines = [
         CategoryInline,
