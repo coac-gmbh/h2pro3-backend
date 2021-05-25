@@ -58,6 +58,10 @@ class UpdateCommunitySerializer(serializers.Serializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
+    description = serializers.CharField(max_length=settings.COMMUNITY_DESCRIPTION_MAX_LENGTH, required=False,
+                                        allow_blank=True)
+    rules = serializers.CharField(max_length=settings.COMMUNITY_RULES_MAX_LENGTH, required=False, allow_blank=True)
+
     class Meta:
         model = Community
         fields = ['type', 'name', 'title', 'description', 'rules', 'cover', 'avatar',
