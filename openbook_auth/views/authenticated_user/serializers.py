@@ -99,6 +99,7 @@ class GetAuthenticatedUserSerializer(serializers.ModelSerializer):
 
 
 class LegacyGetAuthenticatedUserSerializer(serializers.ModelSerializer):
+    categories = CategorySerializer(many=True)
     profile = GetAuthenticatedUserProfileSerializer(many=False)
     unread_notifications_count = UnreadNotificationsCountField()
     followers_count = FollowersCountField()
@@ -121,6 +122,7 @@ class LegacyGetAuthenticatedUserSerializer(serializers.ModelSerializer):
             'language',
             'invite_count',
             'date_joined',
+            'categories',
             'posts_count',
             'are_guidelines_accepted',
             'followers_count',
