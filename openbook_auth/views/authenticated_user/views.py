@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.utils.translation import gettext as _
-
+from openbook_common.utils.helpers import normalise_request_data, normalize_list_value_in_request_data
 from openbook_auth.views.auth.serializers import AuthenticatedUserNotificationsSettingsSerializer, \
     UpdateAuthenticatedUserNotificationsSettingsSerializer
 from openbook_auth.views.authenticated_user.serializers import GetAuthenticatedUserSerializer, \
@@ -17,7 +17,7 @@ from openbook_auth.views.authenticated_user.serializers import GetAuthenticatedU
 from openbook_common.utils.model_loaders import get_language_model
 from openbook_moderation.permissions import IsNotSuspended, check_user_is_not_suspended
 from openbook_common.responses import ApiMessageResponse
-
+from openbook_categories.models import Category
 
 class AuthenticatedUser(APIView):
     permission_classes = (IsAuthenticated,)
@@ -28,7 +28,9 @@ class AuthenticatedUser(APIView):
 
     def patch(self, request):
         check_user_is_not_suspended(user=request.user)
-        serializer = UpdateAuthenticatedUserSerializer(data=request.data)
+        request_data = normalise_request_data(request.data)
+        normalize_list_value_in_request_data(list_name='categories', request_data=request_data)
+        serializer = UpdateAuthenticatedUserSerializer(data=request_data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
 
@@ -64,6 +66,8 @@ class AuthenticatedUser(APIView):
                     user.update_profile_cover(cover, save=False)
 
             user.profile.save()
+            categories = Category.objects.filter(name__in=request_data.get('categories', []))
+            user.categories.set(categories)
             user.save()
 
         user_serializer = GetAuthenticatedUserSerializer(user, context={"request": request})

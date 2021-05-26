@@ -19,6 +19,7 @@ class Category(models.Model):
                                    null=True, )
     created = models.DateTimeField(editable=False)
     communities = models.ManyToManyField(Community, related_name='categories', blank=True)
+    users = models.ManyToManyField(User, related_name='categories', blank=True)
     avatar = models.ImageField(_('avatar'), blank=False, null=True)
     color = models.CharField(_('color'), max_length=settings.COLOR_ATTR_MAX_LENGTH, blank=False, null=False,
                              validators=[hex_color_validator])

@@ -2,6 +2,11 @@ from django.contrib import admin
 
 # RegisterView your models here.
 from openbook_auth.models import User, UserProfile
+from openbook_categories.models import Category
+
+
+class CategoryInline(admin.TabularInline):
+    model = Category.users.through
 
 
 class UserProfileInline(admin.TabularInline):
@@ -14,6 +19,7 @@ class UserProfileInline(admin.TabularInline):
 class UserAdmin(admin.ModelAdmin):
     inlines = [
         UserProfileInline,
+        CategoryInline,
     ]
     search_fields = ('username',)
 

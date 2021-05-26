@@ -17,6 +17,8 @@ from openbook_common.serializers_fields.user import FollowersCountField, \
 from openbook_common.validators import name_characters_validator, language_id_exists
 from openbook_moderation.serializers_fields.user import UserPendingCommunitiesModeratedObjectsCountField, \
     UserActiveModerationPenaltiesCountField
+from openbook_categories.serializers import \
+    GetCategoriesCategorySerializer as CategorySerializer
 
 
 class GetAuthenticatedUserProfileBadgeSerializer(serializers.ModelSerializer):
@@ -60,6 +62,7 @@ class UserLanguageSerializer(serializers.ModelSerializer):
 
 
 class GetAuthenticatedUserSerializer(serializers.ModelSerializer):
+    categories = CategorySerializer(many=True)
     profile = GetAuthenticatedUserProfileSerializer(many=False)
     unread_notifications_count = UnreadNotificationsCountField()
     followers_count = FollowersCountField()
@@ -81,6 +84,7 @@ class GetAuthenticatedUserSerializer(serializers.ModelSerializer):
             'language',
             'invite_count',
             'date_joined',
+            'categories',
             'are_guidelines_accepted',
             'followers_count',
             'following_count',
