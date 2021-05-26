@@ -10,6 +10,8 @@ from openbook_common.serializers_fields.user import FollowersCountField, Followi
     IsPendingConnectionConfirmation, IsBlockedField, IsUserReportedField, IsFollowedField, \
     AreNewPostNotificationsEnabledForUserField, IsPendingFollowRequestApproval, IsFollowRequested
 from openbook_lists.models import List
+from openbook_categories.serializers import \
+    GetCategoriesCategorySerializer as CategorySerializer
 
 
 class GetUserUserProfileBadgeSerializer(serializers.ModelSerializer):
@@ -100,6 +102,7 @@ class GetUserUserListSerializer(serializers.ModelSerializer):
 
 
 class GetUserUserSerializer(serializers.ModelSerializer):
+    categories = CategorySerializer(many=True)
     profile = GetUserUserProfileSerializer(many=False)
     followers_count = FollowersCountField()
     following_count = FollowingCountField()
@@ -135,11 +138,13 @@ class GetUserUserSerializer(serializers.ModelSerializer):
             'date_joined',
             'is_pending_connection_confirmation',
             'is_pending_follow_request_approval',
-            'visibility'
+            'visibility',
+            'categories',
         )
 
 
 class LegacyGetUserUserSerializer(serializers.ModelSerializer):
+    categories = CategorySerializer(many=True)
     profile = GetUserUserProfileSerializer(many=False)
     followers_count = FollowersCountField()
     following_count = FollowingCountField()
@@ -177,7 +182,8 @@ class LegacyGetUserUserSerializer(serializers.ModelSerializer):
             'date_joined',
             'is_pending_connection_confirmation',
             'is_pending_follow_request_approval',
-            'visibility'
+            'visibility',
+            'categories',
         )
 
 
