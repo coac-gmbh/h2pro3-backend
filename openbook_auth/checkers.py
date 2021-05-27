@@ -41,6 +41,10 @@ def check_can_post_to_community_with_name(user, community_name=None):
         raise ValidationError(
             _('You cannot post to a community you\'re not member of '),
         )
+    if not user.can_create_post_to_community_with_name(community_name=community_name):
+        raise ValidationError(
+            _('You cannot post to a closed community where you\'re not an administrator'),
+        )
 
 
 def check_can_enable_disable_comments_for_post_in_community_with_name(user, community_name):

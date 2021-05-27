@@ -38,7 +38,10 @@ class GroupMixin(models.Model):
     institution = models.CharField(_('institution'), max_length=settings.GROUP_INSTITUTION_MAX_LENGTH,
                                    blank=True, null=True)
     departments = models.TextField(_('departments'), max_length=settings.GROUP_DEPARTMENT_MAX_LENGTH,
-                                  blank=True, null=True)
+                                   blank=True, null=True)
+    closed = models.BooleanField(_('closed group'),
+                                 help_text=_('only administrators can publish on closed groups'),
+                                 default=False)
 
     class Meta:
         abstract = True

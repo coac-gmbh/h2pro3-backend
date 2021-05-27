@@ -42,6 +42,7 @@ from openbook_common.utils.model_loaders import get_connection_model, get_circle
 from openbook_common.validators import name_characters_validator
 from openbook_notifications import helpers
 from openbook_auth.checkers import *
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class User(AbstractUser):
@@ -734,6 +735,16 @@ class User(AbstractUser):
 
     def is_administrator_of_community_with_name(self, community_name):
         return self.communities_memberships.filter(community__name=community_name, is_administrator=True).exists()
+
+    def can_create_post_to_community_with_name(self, community_name):
+        try:
+            cm = self.communities_memberships.get(community__name=community_name)
+            if cm.community.closed:
+                return self.is_administrator_of_community_with_name(community_name)
+            else:
+                return True
+        except ObjectDoesNotExist:
+            return False
 
     def is_staff_of_community_with_name(self, community_name):
         return self.is_administrator_of_community_with_name(
