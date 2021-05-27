@@ -43,7 +43,7 @@ def check_can_post_to_community_with_name(user, community_name=None):
         )
     if not user.can_create_post_to_community_with_name(community_name=community_name):
         raise ValidationError(
-            _('You cannot post to a closed community where you\'re not an administrator'),
+            _('You cannot post to a closed group where you\'re not an administrator'),
         )
 
 
