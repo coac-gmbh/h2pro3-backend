@@ -740,7 +740,7 @@ class User(AbstractUser):
         try:
             # If found the user is a member of the community/group
             cm = self.communities_memberships.get(community__name=community_name)
-            # if community is closed
+            # If the community is closed then we validate it's an administrator, otherwise just because it's a member it can post
             return cm.is_administrator if cm.community.closed else True
         except ObjectDoesNotExist:
             # user not is member
