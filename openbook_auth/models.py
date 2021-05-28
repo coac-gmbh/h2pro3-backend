@@ -743,7 +743,7 @@ class User(AbstractUser):
             # If the community is closed then we validate it's an administrator, otherwise just because it's a member it can post
             return cm.is_administrator if cm.community.closed else True
         except ObjectDoesNotExist:
-            # user not is member
+            # The user is not a member of the community/group
             return False
 
     def is_staff_of_community_with_name(self, community_name):
