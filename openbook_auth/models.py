@@ -738,7 +738,7 @@ class User(AbstractUser):
 
     def can_create_post_to_community_with_name(self, community_name):
         try:
-            # the user has a community membership
+            # If found the user is a member of the community/group
             cm = self.communities_memberships.get(community__name=community_name)
             # if community is closed
             return cm.is_administrator if cm.community.closed else True
