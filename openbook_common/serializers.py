@@ -191,7 +191,7 @@ class CommonSearchCommunitiesSerializer(serializers.Serializer):
 
 class CommonSearchCommunitiesCommunitySerializer(serializers.ModelSerializer):
     is_favorite = IsFavoriteField()
-
+    user_can_post = serializers.SerializerMethodField(read_only=True)
     memberships = CommunityMembershipsField(community_membership_serializer=CommonCommunityMembershipSerializer)
 
     class Meta:
@@ -207,8 +207,18 @@ class CommonSearchCommunitiesCommunitySerializer(serializers.ModelSerializer):
             'user_adjective',
             'users_adjective',
             'is_favorite',
+            'closed',
+            'user_can_post',
             'memberships'
         )
+
+    def get_user_can_post(self, obj):
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            return user.can_create_post_to_community_with_name(obj.name)
+        else:
+            return False
 
 
 class CommonCommunityNameSerializer(serializers.Serializer):
