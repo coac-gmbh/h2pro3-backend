@@ -738,12 +738,12 @@ class User(AbstractUser):
 
     def can_create_post_to_community_with_name(self, community_name):
         try:
+            # If found the user is a member of the community/group
             cm = self.communities_memberships.get(community__name=community_name)
-            if cm.community.closed:
-                return self.is_administrator_of_community_with_name(community_name)
-            else:
-                return True
+            # If the community is closed then we validate it's an administrator, otherwise just because it's a member it can post
+            return cm.is_administrator if cm.community.closed else True
         except ObjectDoesNotExist:
+            # The user is not a member of the community/group
             return False
 
     def is_staff_of_community_with_name(self, community_name):
