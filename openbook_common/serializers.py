@@ -216,10 +216,7 @@ class CommonSearchCommunitiesCommunitySerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         if request and hasattr(request, "user"):
             user = request.user
-            if obj.closed:
-                return obj.memberships.filter(user=user, is_administrator=True).exists()
-            else:
-                return obj.memberships.filter(user=user).exists()
+            return user.can_create_post_to_community_with_name(obj.name)
         else:
             return False
 
