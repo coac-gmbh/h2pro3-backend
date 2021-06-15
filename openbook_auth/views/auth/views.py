@@ -9,6 +9,8 @@ from rest_framework.views import APIView
 from django.utils.translation import gettext as _
 from rest_framework.authtoken.models import Token
 
+from firebase_admin import auth as firebase_auth
+
 from openbook_auth.views.auth.serializers import RegisterSerializer, UsernameCheckSerializer, EmailCheckSerializer, \
     EmailVerifySerializer, LoginSerializer, VerifyPasswordResetSerializer, RequestPasswordResetSerializer, \
     RegisterTokenSerializer
@@ -143,7 +145,12 @@ class Login(APIView):
         user = authenticate(username=username, password=password)
         if user is not None:
             token, created = Token.objects.get_or_create(user=user)
-            return Response({'token': token.key}, status=status.HTTP_200_OK)
+            uid = str(user.id)
+            firebase_token = firebase_auth.create_custom_token(uid)
+            return Response({
+                'token': token.key,
+                'firebase_token': firebase_token},
+                status=status.HTTP_200_OK)
         else:
             raise AuthenticationFailed()
 

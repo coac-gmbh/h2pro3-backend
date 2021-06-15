@@ -43,6 +43,7 @@ from openbook_common.validators import name_characters_validator
 from openbook_notifications import helpers
 from openbook_auth.checkers import *
 from django.core.exceptions import ObjectDoesNotExist
+from hydrogen.firebase import update_or_create_firebase_user, create_firebase_token
 
 
 class User(AbstractUser):
@@ -293,6 +294,9 @@ class User(AbstractUser):
 
     def count_posts(self):
         return self.posts.count()
+
+    def create_firebase_token(self):
+        return create_firebase_token(self)
 
     def count_moderation_penalties_for_moderation_severity(self, moderation_severity):
         return self.moderation_penalties.filter(
@@ -3860,6 +3864,15 @@ def bootstrap_circles(sender, instance=None, created=False, **kwargs):
     """
     if created:
         bootstrap_user_circles(instance)
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL, dispatch_uid='register_firebase_user')
+def create_firebase_user(sender, instance=None, created=False, **kwargs):
+    """
+    Create a firebase user
+    """
+    if created:
+        update_or_create_firebase_user(instance)
 
 
 class UserProfile(models.Model):
