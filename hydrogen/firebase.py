@@ -19,6 +19,8 @@ def firebase_db():
 def create_firebase_token(user):
     initialize_firebase_app()
     if user.is_authenticated:
+        if not get_firebase_user_data(user):
+            update_or_create_firebase_user(user)
         uid = str(user.id)
         firebase_token = auth.create_custom_token(uid)
         return firebase_token
