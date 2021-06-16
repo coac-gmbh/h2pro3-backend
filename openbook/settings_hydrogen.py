@@ -1,5 +1,3 @@
-import os.path
-
 from .settings import *
 
 HYDROGEN_APPS = [
@@ -20,7 +18,7 @@ GROUP_INSTITUTION_MAX_LENGTH = 100
 GROUP_DEPARTMENT_MAX_LENGTH = 2000
 
 # firebase credential path
-FIREBASE_CREDENTIALS_PATH = os.path.join(
-    os.environ.get('FIREBASE_CREDENTIALS_PATH',
-                   'hydrogen/hydrogen-firebase-adminsdk.json')
+FIREBASE_CREDENTIALS_PATH = os.environ.get(
+    'FIREBASE_CREDENTIALS_PATH',
+    os.path.join(BASE_DIR, 'local/h2-firebase-adminsdk.json')
 )
