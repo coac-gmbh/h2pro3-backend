@@ -518,6 +518,153 @@ put them in their respective folders.
 7. Run `./manage.py compilemessages` to auto-generate `django.mo` files. 
 8. You need to checkin both `django.po` and `django.mo` files for each locale.
 
+## Deployment with Dokku
+
+The project is dokku ready, these are the steps to deploy it in your dokku server:
+
+#### Server Side:
+
+> These docs do not cover dokku setup, you should already have configured the initial dokku config including ssh keys
+
+Create the app:
+```
+dokku apps:create h2
+```
+
+Configure the database with Dokku *(Optional if you want to manage the database with Dokku)*:
+```
+dokku mysql:create h2
+dokku mysql:link h2 h2
+```
+> If you don't have dokku postgres installed, run this before:
+> `sudo dokku plugin:install https://github.com/dokku/dokku-postgres.git`
+
+Install and link Dokku redis (https://github.com/dokku/dokku-redis)
+```
+dokku redis:create h2
+dokku redis:link h2 h2
+```
+
+Get redis config from REDIS_URL (To create REDIS env variables later):
+```
+dokku config h2
+```
+
+Create the required environment variables:
+```
+dokku config:set h2 DJANGO_SETTINGS_MODULE=openbook.settings_hydrogen
+dokku config:set h2 REDIS_HOST=host REDIS_PORT=port REDIS_PASSWORD=pass
+dokku config:set h2 ENVIRONMENT=production DJANGO_SECRET_KEY=....
+```
+
+The following is the list of environment variables that are required or optional before deploying the system:
+
+| Variable | Description | Required | Default | Options |
+| :--- | :--- | :---: | :--- | :--- |
+| `DJANGO_SETTINGS_MODULE` | Django settings to use | **yes** | *None* | openbook.settings_hydrogen |
+| `ENVIRONMENT` | Config the environment type | **yes** | *None* | development *or* production *or* aceptance *or* test |
+| `DJANGO_SECRET_KEY` | Key used by Django for tokens like CSRF and cookies, it can be any secret key but it's recommended to generate it using https://djecrety.ir/ | **yes** | *None* | |
+| `FIREBASE_CREDENTIALS_PATH` | Locations of JSON file with Firebase config | no | `./local/h2-firebase-adminsdk.json` | |
+| `JWT_ALGORITHM` | Django variable to provide cryptographic signing. | **yes** | *None* | HS256 |
+| `JWT_ALGORITHM` | Django variable to provide cryptographic signing. | **yes** | *None* | HS256 |
+| `REDIS_HOST` | Redis host. | **yes** | *None* |  |
+| `REDIS_PORT` | Redis port. | **yes** | *None* |  |
+| `REDIS_PASSWORD` | Redis password. | **yes** | *None* |  |
+| `RDS_DB_NAME` | Custom database name (In case dokku mysql is not used) | no | *None* |  |
+| `RDS_USERNAME` | Custom database username (In case dokku mysql is not used) | no | *None* |  |
+| `RDS_HOSTNAME` | Custom database hostname (In case dokku mysql is not used) | no | *None* |  |
+| `RDS_PORT` | Custom database port (In case dokku mysql is not used) | no | *None* |  |
+| `RDS_PASSWORD` | Custom database password (In case dokku mysql is not used) | no | *None* |  |
+| `RDS_HOSTNAME_READER` | Custom database reader replica host (In case dokku mysql is not used) | no | *None* |  |
+| `RDS_HOSTNAME_WRITER` | Custom database writer replica host (In case dokku mysql is not used) | no | *None* |  |
+
+
+##### Configure Storages
+```
+dokku storage:mount h2 /var/lib/dokku/data/storage/h2/media:/opt/okuna-api/media
+dokku storage:list h2
+```
+
+##### Configure Nginx
+
+Copy config files from
+```
+.dokku/nginx/file_size.conf
+.dokku/nginx/serve_statics.conf
+```
+
+To
+```
+/home/dokku/<app>/nginx.conf.d/<app>.conf
+```
+
+In case the directory does not exist you may need to create it:
+```
+sudo mkdir nginx.conf.d
+sudo chown dokku:dokku nginx.conf.d/
+```
+
+##### Configure Firebase
+
+Firebase SDK service account config is a secret file that needs to be placed in a Dokku storage and linked 
+via an ENV variable.
+
+Create the dokku storage if you haven't already:
+```
+dokku storage:mount h2 /var/lib/dokku/data/storage/h2/local:/opt/okuna-api/local
+```
+
+Optional: Create the ENV variable
+```
+dokku config:set h2 DJANGO_SETTINGS_MODULE=/path/to/something
+```
+> INFO: The default value is `./local/h2-firebase-adminsdk.json`
+
+Download the JSON file with the service account config from `Firebase` in the Service Accounts Section:
+See: https://firebase.google.com/docs/admin/setup#initialize-sdk
+
+Then add the file to the dokku storage location: `/var/lib/dokku/data/storage/h2/local` with the same name as configured
+in the `FIREBASE_CREDENTIALS_PATH` env variable.
+
+##### Initial Data
+
+Load initial data: 
+```
+python manage.py loaddata circles.json emoji-groups.json emojis.json badges.json languages.json
+```
+
+**WARNING (This may replace existing categories)** Optional: Load categories
+```
+python manage.py loaddata categories.json
+python manage.py collectmedia
+```
+
+*Optional*: install development data:
+```
+python manage.py loaddata utils/development_data/fixtures.json
+cp -a utils/development_data/media .
+```
+
+Create superuser:
+```
+dokku run h2 python manage.py createsuperuser
+```
+
+##### Additional Steps
+
+To set up SSH, configure dokku-letsencrypt:
+https://github.com/dokku/dokku-letsencrypt
+
+### Locally
+
+Add the remote host as a git remote, then push the code from the branch hydrogen to master
+```
+git remote add <origin_name> dokku@<host>:h2
+git remote push hydrogen:master
+```
+
+It should automatically deploy the app and provide its URL!.
+Check that the worker and scheduler are also started in the dokku server (See `DOKKU_SCALE`).
 
 ## FAQ
 
