@@ -60,4 +60,4 @@ def update_or_create_firebase_user(user):
         auth.create_user(uid=uid, **user_data)
     except Exception as e:
         raise e
-    # set_firebase_user_data(user)
+    set_firebase_user_data(user)
