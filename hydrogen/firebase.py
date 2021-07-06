@@ -36,7 +36,7 @@ def get_firebase_user_data(user):
 
 def set_firebase_user_data(user):
     db = firebase_db()
-    doc_ref = db.collection(u'users').document(user.id)
+    doc_ref = db.collection(u'users').document(str(user.id))
     # TODO: complete set fields fot tinder module
     doc_ref.set({
         'firstName': user.first_name,
