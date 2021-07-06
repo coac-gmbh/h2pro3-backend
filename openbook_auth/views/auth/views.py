@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.utils.translation import gettext as _
 from rest_framework.authtoken.models import Token
+from hydrogen.firebase import create_firebase_token
 
 from openbook_auth.views.auth.serializers import RegisterSerializer, UsernameCheckSerializer, EmailCheckSerializer, \
     EmailVerifySerializer, LoginSerializer, VerifyPasswordResetSerializer, RequestPasswordResetSerializer, \
@@ -143,7 +144,11 @@ class Login(APIView):
         user = authenticate(username=username, password=password)
         if user is not None:
             token, created = Token.objects.get_or_create(user=user)
-            return Response({'token': token.key}, status=status.HTTP_200_OK)
+            firebase_token = create_firebase_token(user)
+            return Response({
+                'token': token.key,
+                'firebase_token': firebase_token},
+                status=status.HTTP_200_OK)
         else:
             raise AuthenticationFailed()
 

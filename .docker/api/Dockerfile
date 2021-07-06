@@ -1,6 +1,9 @@
 FROM python:3.7.3
 
-RUN apt-get -y update && apt-get -y upgrade &&  apt-get install -y ffmpeg
+RUN apt-get -y update && apt-get -y upgrade &&  apt-get install -y ffmpeg && apt-get install -qy python3-pip time
+
+# Workaround to solve Django firebase-admin package install
+RUN time pip3 install grpcio
 
 COPY wait-for-it.sh /wait-for-it.sh
 
@@ -19,6 +22,7 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 COPY requirements.txt /requirements.txt
 
+RUN pip install --upgrade pip
 RUN pip install -r /requirements.txt
 
 VOLUME ["/opt/okuna-api"]
