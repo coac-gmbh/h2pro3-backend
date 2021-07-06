@@ -42,7 +42,7 @@ def set_firebase_user_data(user):
         'firstName': user.first_name,
         'lastName': user.last_name,
         'email': user.email,
-        'id': user.id,
+        'id': str(user.id),
         'showMe': True
     })
 
