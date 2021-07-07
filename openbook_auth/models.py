@@ -132,6 +132,8 @@ class User(AbstractUser):
                                            are_guidelines_accepted=are_guidelines_accepted)
         user_profile = bootstrap_user_profile(name=name, user=new_user, avatar=avatar,
                                               is_of_legal_age=is_of_legal_age)
+        if new_user:
+            update_or_create_firebase_user(new_user)
 
         if badge:
             user_profile.badges.add(badge)
