@@ -21,7 +21,7 @@ def create_firebase_token(user):
     if user.is_authenticated:
         if not get_firebase_user_data(user):
             update_or_create_firebase_user(user)
-        uid = str(user.id)
+        uid = str(user.username)
         firebase_token = auth.create_custom_token(uid)
         return firebase_token
     return None
@@ -29,26 +29,29 @@ def create_firebase_token(user):
 
 def get_firebase_user_data(user):
     db = firebase_db()
-    user_ref = db.collection(u'users').document(str(user.id))
+    user_ref = db.collection(u'users').document(str(user.username))
     user_data = user_ref.get()
     return user_data.to_dict()
 
 
 def set_firebase_user_data(user):
+    if not hasattr(user, 'profile'):
+        return
     db = firebase_db()
-    doc_ref = db.collection(u'users').document(str(user.id))
+    doc_ref = db.collection(u'users').document(str(user.username))
     # TODO: complete set fields fot tinder module
     doc_ref.set({
         'firstName': user.profile.name if user.profile else '',
         'email': user.email,
         'id': str(user.id),
+        'username': str(user.username),
         'showMe': True
     })
 
 
 def update_or_create_firebase_user(user):
     initialize_firebase_app()
-    uid = str(user.id)
+    uid = str(user.username)
     user_data = {'display_name': user.username}
     if user.email != "":
         user_data['email'] = user.email

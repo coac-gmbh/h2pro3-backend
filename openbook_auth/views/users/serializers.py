@@ -12,6 +12,7 @@ from openbook_common.serializers_fields.user import FollowersCountField, Followi
 from openbook_lists.models import List
 from openbook_categories.serializers import \
     GetCategoriesCategorySerializer as CategorySerializer
+from openbook_common.serializers import CommunityMembershipSerializer
 
 
 class GetUserUserProfileBadgeSerializer(serializers.ModelSerializer):
@@ -102,6 +103,7 @@ class GetUserUserListSerializer(serializers.ModelSerializer):
 
 
 class GetUserUserSerializer(serializers.ModelSerializer):
+    communities_memberships = CommunityMembershipSerializer(many=True)
     categories = CategorySerializer(many=True)
     profile = GetUserUserProfileSerializer(many=False)
     followers_count = FollowersCountField()
@@ -140,10 +142,12 @@ class GetUserUserSerializer(serializers.ModelSerializer):
             'is_pending_follow_request_approval',
             'visibility',
             'categories',
+            'communities_memberships',
         )
 
 
 class LegacyGetUserUserSerializer(serializers.ModelSerializer):
+    communities_memberships = CommunityMembershipSerializer(many=True)
     categories = CategorySerializer(many=True)
     profile = GetUserUserProfileSerializer(many=False)
     followers_count = FollowersCountField()
@@ -184,6 +188,7 @@ class LegacyGetUserUserSerializer(serializers.ModelSerializer):
             'is_pending_follow_request_approval',
             'visibility',
             'categories',
+            'communities_memberships',
         )
 
 
