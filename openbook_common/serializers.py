@@ -303,6 +303,7 @@ class ProxyDomainCheckSerializer(serializers.Serializer):
 class CommunityMembershipSerializer(serializers.ModelSerializer):
     community_name = serializers.SerializerMethodField(read_only=True)
     community_title = serializers.SerializerMethodField(read_only=True)
+    community_color = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = CommunityMembership
@@ -314,6 +315,7 @@ class CommunityMembershipSerializer(serializers.ModelSerializer):
             'is_moderator',
             'community_name',
             'community_title',
+            'community_color'
         )
 
     def get_community_name(self, obj):
@@ -321,3 +323,6 @@ class CommunityMembershipSerializer(serializers.ModelSerializer):
 
     def get_community_title(self, obj):
         return obj.community.title
+
+    def get_community_color(self, obj):
+        return obj.community.color
