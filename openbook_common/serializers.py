@@ -298,3 +298,26 @@ class ProxyDomainCheckSerializer(serializers.Serializer):
     url = serializers.CharField(
         required=True,
     )
+
+
+class CommunityMembershipSerializer(serializers.ModelSerializer):
+    community_name = serializers.SerializerMethodField(read_only=True)
+    community_title = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = CommunityMembership
+        fields = (
+            'id',
+            'user_id',
+            'community_id',
+            'is_administrator',
+            'is_moderator',
+            'community_name',
+            'community_title',
+        )
+
+    def get_community_name(self, obj):
+        return obj.community.name
+
+    def get_community_title(self, obj):
+        return obj.community.title
