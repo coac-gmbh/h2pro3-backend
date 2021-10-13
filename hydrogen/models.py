@@ -16,8 +16,6 @@ class GroupMixin(models.Model):
         (GROUP_TYPE_UNIVERSITY, 'University'),
     )
     group_type = models.CharField(blank=True, null=True, choices=GROUP_TYPES, max_length=1)
-    about_us = models.TextField(_('about us'), max_length=settings.GROUP_ABOUT_US_MAX_LENGTH,
-                                blank=True, null=True)
     website = models.URLField(_('website'), max_length=settings.GROUP_WEBSITE_MAX_LENGTH,
                               blank=True, null=True)
     # City fields

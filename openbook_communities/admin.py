@@ -12,7 +12,7 @@ class CommunityAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ('creator', 'name', 'title', 'description', 'rules')}),
         (None, {'fields': ('avatar', 'cover', 'starrers')}),
-        ('H2pro3', {'fields': ('group_type', 'about_us', 'website', 'closed')}),
+        ('H2pro3', {'fields': ('group_type', 'website', 'closed')}),
         ('City', {'classes': ['collapse'], 'fields': ('population', 'area', 'energy_demand')}),
         ('Company', {'classes': ['collapse'], 'fields': ('industry', 'employee', 'location')}),
         ('University', {'classes': ['collapse'], 'fields': ('institution', 'departments')}),
