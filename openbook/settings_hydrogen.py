@@ -1,12 +1,11 @@
 from .settings import *
 
 HYDROGEN_APPS = [
-    'hydrogen',
+    'hydrogen.apps.HydrogenAppConfig',
 ]
 
 INSTALLED_APPS += HYDROGEN_APPS
 
-GROUP_ABOUT_US_MAX_LENGTH = 5000
 GROUP_WEBSITE_MAX_LENGTH = 200
 GROUP_POPULATION_MAX_LENGTH = 64
 GROUP_AREA_MAX_LENGTH = 100

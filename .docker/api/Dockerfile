@@ -1,4 +1,5 @@
 FROM python:3.7.3
+ENV PYTHONUNBUFFERED=1
 
 RUN apt-get -y update && apt-get -y upgrade &&  apt-get install -y ffmpeg && apt-get install -qy python3-pip time
 
