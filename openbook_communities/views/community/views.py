@@ -52,7 +52,6 @@ class CommunityItem(APIView):
 
         if serializer.is_valid(raise_exception=True):
             community = serializer.save()
-            community.set_categories_with_names(categories_names=request_data.get('categories', []))
             community_serializer = self._get_community_serializer()
             response_serializer = community_serializer(community, context={"request": request})
             return Response(response_serializer.data, status=status.HTTP_200_OK)
