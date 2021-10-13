@@ -66,7 +66,7 @@ class GroupSerializer(serializers.ModelSerializer):
         model = Community
         fields = ['type', 'name', 'title', 'description', 'rules', 'cover', 'avatar',
                   'user_adjective', 'users_adjective', 'invites_enabled', 'closed',
-                  'color', 'about_us', 'website', 'population', 'area', 'energy_demand',
+                  'color', 'website', 'population', 'area', 'energy_demand',
                   'industry', 'employee', 'location', 'group_type', 'institution', 'departments']
 
 
@@ -241,7 +241,6 @@ class LegacyGetCommunityCommunitySerializer(serializers.ModelSerializer):
             'is_favorite',
             'is_reported',
             'group_type',
-            'about_us',
             'website',
             'population',
             'area',

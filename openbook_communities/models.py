@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 
-# Create your models here.
 from django.utils import timezone
 from django.db.models import Q
 from django.db.models import Count
@@ -34,19 +33,19 @@ class Community(GroupMixin):
     name = models.CharField(_('name'), max_length=settings.COMMUNITY_NAME_MAX_LENGTH, blank=False, null=False,
                             unique=True, validators=(community_name_characters_validator,))
     title = models.CharField(_('title'), max_length=settings.COMMUNITY_TITLE_MAX_LENGTH, blank=False, null=False, )
-    description = models.CharField(_('description'), max_length=settings.COMMUNITY_DESCRIPTION_MAX_LENGTH, blank=False,
+    description = models.CharField(_('description'), max_length=settings.COMMUNITY_DESCRIPTION_MAX_LENGTH, blank=True,
                                    null=True, )
-    rules = models.TextField(_('rules'), max_length=settings.COMMUNITY_RULES_MAX_LENGTH, blank=False,
+    rules = models.TextField(_('rules'), max_length=settings.COMMUNITY_RULES_MAX_LENGTH, blank=True,
                              null=True)
-    avatar = ProcessedImageField(verbose_name=_('avatar'), blank=False, null=True, format='JPEG',
+    avatar = ProcessedImageField(verbose_name=_('avatar'), blank=True, null=True, format='JPEG',
                                  options={'quality': 90}, processors=[ResizeToFill(500, 500)],
                                  upload_to=upload_to_community_avatar_directory)
-    cover = ProcessedImageField(verbose_name=_('cover'), blank=False, null=True, format='JPEG',
+    cover = ProcessedImageField(verbose_name=_('cover'), blank=True, null=True, format='JPEG',
                                 options={'quality': 90},
                                 upload_to=upload_to_community_cover_directory,
                                 processors=[ResizeToFit(width=1024, upscale=False)])
     created = models.DateTimeField(editable=False)
-    starrers = models.ManyToManyField(User, related_name='favorite_communities')
+    starrers = models.ManyToManyField(User, related_name='favorite_communities', blank=True)
     banned_users = models.ManyToManyField(User, related_name='banned_of_communities')
     COMMUNITY_TYPE_PRIVATE = 'T'
     COMMUNITY_TYPE_PUBLIC = 'P'
