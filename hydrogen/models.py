@@ -7,13 +7,13 @@ class GroupMixin(models.Model):
     GROUP_TYPE_CITY = 'C'
     GROUP_TYPE_COMPANY = 'Q'
     GROUP_TYPE_INSTITUTION = 'I'
-    GROUP_TYPE_UNIVERSITY = 'U'
+    GROUP_TYPE_RESEARCH = 'U'  # U because it was previously University and renamed to Research
 
     GROUP_TYPES = (
         (GROUP_TYPE_CITY, 'City'),
         (GROUP_TYPE_COMPANY, 'Company'),
         (GROUP_TYPE_INSTITUTION, 'Institution'),
-        (GROUP_TYPE_UNIVERSITY, 'University'),
+        (GROUP_TYPE_RESEARCH, 'Research'),
     )
     group_type = models.CharField(blank=True, null=True, choices=GROUP_TYPES, max_length=1)
     website = models.URLField(_('website'), max_length=settings.GROUP_WEBSITE_MAX_LENGTH,

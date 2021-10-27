@@ -9,7 +9,7 @@ from openbook_communities.models import Community
 CATEGORIES_MAPPING = {
     GroupMixin.GROUP_TYPE_CITY: "Städte und Kreise",
     GroupMixin.GROUP_TYPE_COMPANY: "Unternehmen",
-    GroupMixin.GROUP_TYPE_UNIVERSITY: "Wissenschaft",
+    GroupMixin.GROUP_TYPE_RESEARCH: "Wissenschaft",
     GroupMixin.GROUP_TYPE_INSTITUTION: "Netzwerke"
 }
 
