@@ -660,7 +660,7 @@ https://github.com/dokku/dokku-letsencrypt
 Add the remote host as a git remote, then push the code from the branch hydrogen to master
 ```
 git remote add <origin_name> dokku@<host>:h2
-git remote push hydrogen:master
+git push <origin_name> hydrogen:master
 ```
 
 It should automatically deploy the app and provide its URL!.
