@@ -12,7 +12,7 @@ CATEGORIES_MAPPING = {
     GroupMixin.GROUP_TYPE_RESEARCH: "Wissenschaft",
     GroupMixin.GROUP_TYPE_INSTITUTION: "Netzwerke",
     GroupMixin.GROUP_TYPE_PROJECT: "H2-Projekte",
-    GroupMixin.GROUP_TYPE_EVENT: "Veranstaltung",
+    GroupMixin.GROUP_TYPE_EVENT: "Veranstaltungen",
 }
 
 
