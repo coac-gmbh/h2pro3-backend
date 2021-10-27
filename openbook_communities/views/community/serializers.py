@@ -63,7 +63,9 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = ['type', 'name', 'title', 'description', 'rules', 'cover', 'avatar',
                   'user_adjective', 'users_adjective', 'invites_enabled', 'closed',
                   'color', 'website', 'population', 'area', 'energy_demand',
-                  'industry', 'employee', 'location', 'group_type', 'institution', 'departments']
+                  'industry', 'employee', 'location', 'group_type', 'institution',
+                  'departments', 'closed', 'project_partners', 'project_duration',
+                  'lessons_learned']
 
 
 class UpdateCommunityAvatarSerializer(serializers.Serializer):
@@ -247,6 +249,9 @@ class LegacyGetCommunityCommunitySerializer(serializers.ModelSerializer):
             'institution',
             'departments',
             'memberships',
+            'project_partners',
+            'project_duration',
+            'lessons_learned',
             'closed',
         )
 

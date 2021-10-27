@@ -8,12 +8,16 @@ class GroupMixin(models.Model):
     GROUP_TYPE_COMPANY = 'Q'
     GROUP_TYPE_INSTITUTION = 'I'
     GROUP_TYPE_RESEARCH = 'U'  # U because it was previously University and renamed to Research
+    GROUP_TYPE_PROJECT = 'P'
+    GROUP_TYPE_EVENT = 'E'
 
     GROUP_TYPES = (
         (GROUP_TYPE_CITY, 'City'),
         (GROUP_TYPE_COMPANY, 'Company'),
         (GROUP_TYPE_INSTITUTION, 'Institution'),
         (GROUP_TYPE_RESEARCH, 'Research'),
+        (GROUP_TYPE_PROJECT, 'Project'),
+        (GROUP_TYPE_EVENT, 'Event'),
     )
     group_type = models.CharField(blank=True, null=True, choices=GROUP_TYPES, max_length=1)
     website = models.URLField(_('website'), max_length=settings.GROUP_WEBSITE_MAX_LENGTH,
@@ -40,6 +44,11 @@ class GroupMixin(models.Model):
     closed = models.BooleanField(_('closed group'),
                                  help_text=_('only administrators can publish on closed groups'),
                                  default=False)
+    # Project fields
+    project_partners = models.TextField(_('project partners'), blank=True, null=True)
+    project_duration = models.CharField(_('project duration'), max_length=settings.GROUP_PROJECT_DURATION,
+                                        blank=True, null=True)
+    lessons_learned = models.TextField(_('lessons learned'), blank=True, null=True)
 
     class Meta:
         abstract = True
