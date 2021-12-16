@@ -19,7 +19,7 @@ class GroupMixin(models.Model):
         (GROUP_TYPE_PROJECT, 'Project'),
         (GROUP_TYPE_EVENT, 'Event'),
     )
-    group_type = models.CharField(blank=True, null=True, choices=GROUP_TYPES, max_length=1)
+    group_type = models.CharField(blank=False, null=False, choices=GROUP_TYPES, max_length=1)
     website = models.URLField(_('website'), max_length=settings.GROUP_WEBSITE_MAX_LENGTH,
                               blank=True, null=True)
     # City fields
