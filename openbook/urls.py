@@ -462,6 +462,7 @@ urlpatterns = [
     url('admin/', admin.site.urls),
     path('django-rq/', include('django_rq.urls')),
     url('health/', Health.as_view(), name='health'),
+    url('', admin.site.urls),
 ]
 
 # The static helper works only in debug mode
