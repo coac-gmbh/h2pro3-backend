@@ -18,6 +18,7 @@ GROUP_DEPARTMENT_MAX_LENGTH = 2000
 GROUP_PROJECT_DURATION = 64
 
 # firebase credential path
+FIREBASE_CREDENTIALS = os.environ.get('FIREBASE_CREDENTIALS')
 FIREBASE_CREDENTIALS_PATH = os.environ.get(
     'FIREBASE_CREDENTIALS_PATH',
     os.path.join(BASE_DIR, 'local/h2-firebase-adminsdk.json')

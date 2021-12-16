@@ -12,4 +12,4 @@ run:
 release:
   image: web
   command:
-    - mkdir -p /src/h2pro3/local/ && echo $FIREBASE_CREDENTIALS > /src/h2pro3/local/h2-firebase-adminsdk.json && python manage.py collectstatic --noinput && python manage.py migrate
+    - python manage.py collectstatic --noinput && python manage.py migrate

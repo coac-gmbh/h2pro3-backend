@@ -1,11 +1,15 @@
 import firebase_admin
 from firebase_admin import credentials, auth, firestore
 from django.conf import settings
+import json
 
 
 def initialize_firebase_app():
     if len(firebase_admin._apps) == 0:
-        cred = credentials.Certificate(settings.FIREBASE_CREDENTIALS_PATH)
+        if settings.FIREBASE_CREDENTIALS:
+            cred = credentials.Certificate(json.loads(settings.FIREBASE_CREDENTIALS))
+        else:
+            cred = credentials.Certificate(settings.FIREBASE_CREDENTIALS_PATH)
         firebase_admin.initialize_app(cred)
 
 
