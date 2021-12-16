@@ -7,4 +7,5 @@ run:
   scheduler: /usr/bin/supervisord -c /src/h2pro3/.docker/scheduler/supervisord.conf
   worker: /usr/bin/supervisord -c /src/h2pro3/.docker/worker/supervisord.conf
 
-release: python manage.py collectstatic --noinput && python manage.py migrate
+release:
+  web: python manage.py collectstatic --noinput && python manage.py migrate
