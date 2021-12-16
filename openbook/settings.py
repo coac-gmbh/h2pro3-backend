@@ -158,8 +158,11 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 JWT_ALGORITHM = os.environ.get('JWT_ALGORITHM', 'HS256')
 
+REDIS_URL = os.environ.get('REDIS_URL')
 REDIS_TLS_URL = os.environ.get('REDIS_TLS_URL')
-if REDIS_TLS_URL:
+if REDIS_URL:
+    REDIS_LOCATION = REDIS_URL
+elif REDIS_TLS_URL:
     REDIS_LOCATION = REDIS_TLS_URL
 else:
     REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost')
