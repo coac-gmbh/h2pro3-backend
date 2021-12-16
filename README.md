@@ -528,6 +528,11 @@ heroku stack:set container -a h2pro3-backend
 ```
 - Follow the Environment variables config from the Dokku deployment below
 
+To load a local fixture:
+```
+cat your-fixture.json | heroku run --no-tty -a <your-app> -- python manage.py loaddata --format=json -
+```
+
 ## Deployment with Dokku
 
 The project is dokku ready, these are the steps to deploy it in your dokku server:

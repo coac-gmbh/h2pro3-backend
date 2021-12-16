@@ -158,18 +158,22 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 JWT_ALGORITHM = os.environ.get('JWT_ALGORITHM', 'HS256')
 
-REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost')
-REDIS_PORT = int(os.environ.get('REDIS_PORT', '6379'))
-REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD')
+REDIS_TLS_URL = os.environ.get('REDIS_TLS_URL')
+if REDIS_TLS_URL:
+    REDIS_LOCATION = REDIS_TLS_URL
+else:
+    REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost')
+    REDIS_PORT = int(os.environ.get('REDIS_PORT', '6379'))
+    REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD')
 
-redis_protocol = 'rediss://' if IS_PRODUCTION else 'redis://'
+    redis_protocol = 'rediss://' if IS_PRODUCTION else 'redis://'
 
-redis_password = '' if not REDIS_PASSWORD else ':%s' % REDIS_PASSWORD
+    redis_password = '' if not REDIS_PASSWORD else ':%s' % REDIS_PASSWORD
 
-REDIS_LOCATION = '%(protocol)s%(password)s@%(host)s:%(port)d' % {'protocol': redis_protocol,
-                                                                 'password': redis_password,
-                                                                 'host': REDIS_HOST,
-                                                                 'port': REDIS_PORT}
+    REDIS_LOCATION = '%(protocol)s%(password)s@%(host)s:%(port)d' % {'protocol': redis_protocol,
+                                                                     'password': redis_password,
+                                                                     'host': REDIS_HOST,
+                                                                     'port': REDIS_PORT}
 
 RQ_SHOW_ADMIN_LINK = False
 
