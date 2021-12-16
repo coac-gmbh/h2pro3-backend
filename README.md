@@ -563,7 +563,7 @@ dokku config h2
 Create the required environment variables:
 ```
 dokku config:set h2 DJANGO_SETTINGS_MODULE=openbook.settings_hydrogen
-dokku config:set h2 ALLOWED_HOSTS=domain.com
+dokku config:set h2 ALLOWED_HOSTS=domain1.com,domain2.com
 dokku config:set h2 REDIS_HOST=host REDIS_PORT=port REDIS_PASSWORD=pass
 dokku config:set h2 ENVIRONMENT=production SECRET_KEY=....
 ```
