@@ -126,10 +126,10 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='moderationreport',
-            constraint=models.UniqueConstraint(fields=('reporter', 'moderated_object'), name='reporter_moderated_object_constraint'),
+            constraint=models.UniqueConstraint(fields=('reporter', 'moderated_object'), name='reporter_moderated_object_constraint_1'),
         ),
         migrations.AddConstraint(
             model_name='moderatedobject',
-            constraint=models.UniqueConstraint(fields=('object_type', 'object_id'), name='reporter_moderated_object_constraint'),
+            constraint=models.UniqueConstraint(fields=('object_type', 'object_id'), name='reporter_moderated_object_constraint_2'),
         ),
     ]

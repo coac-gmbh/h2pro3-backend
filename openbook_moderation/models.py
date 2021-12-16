@@ -87,7 +87,7 @@ class ModeratedObject(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(name='reporter_moderated_object_constraint',
+            models.UniqueConstraint(name='reporter_moderated_object_constraint_1',
                                     fields=['object_type', 'object_id'])
         ]
 
@@ -303,7 +303,7 @@ class ModerationReport(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(name='reporter_moderated_object_constraint',
+            models.UniqueConstraint(name='reporter_moderated_object_constraint_2',
                                     fields=['reporter', 'moderated_object'])
         ]
 
