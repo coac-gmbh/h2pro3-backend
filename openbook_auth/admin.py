@@ -22,6 +22,8 @@ class UserAdmin(admin.ModelAdmin):
         CategoryInline,
     ]
     search_fields = ('username',)
+    list_display = ('username', 'is_staff', 'is_superuser')
+    list_filter = ('is_staff', 'is_superuser')
 
     exclude = ('password',)
 
