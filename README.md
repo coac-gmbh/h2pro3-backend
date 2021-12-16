@@ -632,7 +632,7 @@ dokku storage:mount h2 /var/lib/dokku/data/storage/h2/local:/opt/okuna-api/local
 
 Optional: Create the ENV variable
 ```
-dokku config:set h2 DJANGO_SETTINGS_MODULE=/path/to/something
+dokku config:set h2 FIREBASE_CREDENTIALS_PATH=/path/to/something
 ```
 > INFO: The default value is `./local/h2-firebase-adminsdk.json`
 
