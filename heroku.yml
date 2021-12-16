@@ -1,6 +1,8 @@
 build:
   docker:
     web: Dockerfile
+    worker: Dockerfile
+    scheduler: Dockerfile
 
 run:
   web: gunicorn openbook.wsgi -b :$PORT
