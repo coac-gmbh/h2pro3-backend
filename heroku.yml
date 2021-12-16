@@ -7,4 +7,4 @@ run:
   scheduler: /usr/bin/supervisord -c /src/h2pro3/.docker/scheduler/supervisord.conf
   worker: /usr/bin/supervisord -c /src/h2pro3/.docker/worker/supervisord.conf
 
-release: python manage.py collectstatic --noinput && echo "Environment $ENVIRONMENT" && python manage.py migrate
+release: python manage.py collectstatic --noinput && python manage.py migrate
