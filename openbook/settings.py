@@ -78,6 +78,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = environment_checker.is_debug()
+if os.environ.get('DEBUG'):
+    DEBUG = os.environ.get('DEBUG') == 'true'
 IS_PRODUCTION = environment_checker.is_production()
 IS_BUILD = environment_checker.is_build()
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
