@@ -394,9 +394,7 @@ UNICODE_JSON = True
 
 # The sentry DSN for error reporting
 SENTRY_DSN = os.environ.get('SENTRY_DSN')
-if IS_PRODUCTION:
-    if not SENTRY_DSN:
-        raise NameError('SENTRY_DSN environment variable is required when running on a production environment')
+if SENTRY_DSN:
     sentry_sdk.init(
         dsn=SENTRY_DSN,
         integrations=[DjangoIntegration(), RqIntegration()]

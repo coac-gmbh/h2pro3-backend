@@ -522,11 +522,11 @@ put them in their respective folders.
 
 - Create the App (h2pro3-backend)
 - Install Heroku Postgres
-- Set the ENVIRONMENT var to "production"
 - Run the following in the terminal:
 ```
 heroku stack:set container -a h2pro3-backend
 ```
+- Follow the Environment variables config from the Dokku deployment below
 
 ## Deployment with Dokku
 
@@ -563,8 +563,9 @@ dokku config h2
 Create the required environment variables:
 ```
 dokku config:set h2 DJANGO_SETTINGS_MODULE=openbook.settings_hydrogen
+dokku config:set h2 ALLOWED_HOSTS=domain.com
 dokku config:set h2 REDIS_HOST=host REDIS_PORT=port REDIS_PASSWORD=pass
-dokku config:set h2 ENVIRONMENT=production DJANGO_SECRET_KEY=....
+dokku config:set h2 ENVIRONMENT=production SECRET_KEY=....
 ```
 
 The following is the list of environment variables that are required or optional before deploying the system:
@@ -573,7 +574,7 @@ The following is the list of environment variables that are required or optional
 | :--- | :--- | :---: | :--- | :--- |
 | `DJANGO_SETTINGS_MODULE` | Django settings to use | **yes** | *None* | openbook.settings_hydrogen |
 | `ENVIRONMENT` | Config the environment type | **yes** | *None* | development *or* production *or* aceptance *or* test |
-| `DJANGO_SECRET_KEY` | Key used by Django for tokens like CSRF and cookies, it can be any secret key but it's recommended to generate it using https://djecrety.ir/ | **yes** | *None* | |
+| `SECRET_KEY` | Key used by Django for tokens like CSRF and cookies, it can be any secret key but it's recommended to generate it using https://djecrety.ir/ | **yes** | *None* | |
 | `FIREBASE_CREDENTIALS_PATH` | Locations of JSON file with Firebase config | no | `./local/h2-firebase-adminsdk.json` | |
 | `JWT_ALGORITHM` | Django variable to provide cryptographic signing. | **yes** | *None* | HS256 |
 | `JWT_ALGORITHM` | Django variable to provide cryptographic signing. | **yes** | *None* | HS256 |
