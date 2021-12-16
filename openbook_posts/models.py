@@ -14,6 +14,7 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Count
+from django.template.defaultfilters import truncatechars
 import ffmpy
 
 # Create your views here.
@@ -98,6 +99,9 @@ class Post(models.Model):
         index_together = [
             ('creator', 'community'),
         ]
+
+    def __str__(self):
+        return f'{self.id}: {self.text_truncated}'
 
     @classmethod
     def get_post_id_for_post_with_uuid(cls, post_uuid):
@@ -342,6 +346,10 @@ class Post(models.Model):
             exclude(exclude_blocked_users_query)
 
         return target_subscriptions
+
+    @property
+    def text_truncated(self):
+        return truncatechars(self.text, 50)
 
     def count_comments(self):
         return PostComment.count_comments_for_post_with_id(self.pk)
@@ -816,6 +824,9 @@ class TopPost(models.Model):
     post = models.OneToOneField(Post, on_delete=models.CASCADE, related_name='top_post')
     created = models.DateTimeField(editable=False, db_index=True)
 
+    def __str__(self):
+        return str(self.post)
+
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
         if not self.id:
@@ -828,6 +839,9 @@ class TopPost(models.Model):
 class TrendingPost(models.Model):
     post = models.OneToOneField(Post, on_delete=models.CASCADE, related_name='trending_post')
     created = models.DateTimeField(editable=False, db_index=True)
+
+    def __str__(self):
+        return str(self.post)
 
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''

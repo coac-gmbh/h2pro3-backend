@@ -10,6 +10,9 @@ compilemessages_es:
 build_openbook_api:
 	docker-compose build
 
+bash:
+	docker exec -it okuna-api bash
+
 start_openbook_api:
 	docker-compose up
 
