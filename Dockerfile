@@ -6,7 +6,7 @@ COPY requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 # Setup workdir
-RUN mkdir /src/h2pro3
+RUN mkdir -p /src/h2pro3
 WORKDIR /src/h2pro3
 
 COPY . /src/h2pro3
