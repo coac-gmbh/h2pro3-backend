@@ -518,6 +518,16 @@ put them in their respective folders.
 7. Run `./manage.py compilemessages` to auto-generate `django.mo` files. 
 8. You need to checkin both `django.po` and `django.mo` files for each locale.
 
+## Deployment with Heroku
+
+- Create the App (h2pro3-backend)
+- Install Heroku Postgres
+- Set the ENVIRONMENT var to "production"
+- Run the following in the terminal:
+```
+heroku stack:set container -a h2pro3-backend
+```
+
 ## Deployment with Dokku
 
 The project is dokku ready, these are the steps to deploy it in your dokku server:
