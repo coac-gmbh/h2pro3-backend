@@ -6,7 +6,7 @@ COPY requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 # Setup workdir
-RUN mkdir -p /src/h2pro3
-WORKDIR /src/h2pro3
+RUN mkdir -p /opt/okuna-api
+WORKDIR /opt/okuna-api
 
-COPY . /src/h2pro3
+COPY . /opt/okuna-api
