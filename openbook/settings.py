@@ -187,13 +187,18 @@ REDIS_RQ_DEFAULT_JOBS_CACHE_LOCATION = '%(redis_location)s/%(db)d' % {'redis_loc
 REDIS_RQ_HIGH_JOBS_CACHE_LOCATION = '%(redis_location)s/%(db)d' % {'redis_location': REDIS_LOCATION, 'db': 2}
 REDIS_RQ_LOW_JOBS_CACHE_LOCATION = '%(redis_location)s/%(db)d' % {'redis_location': REDIS_LOCATION, 'db': 3}
 
+if 'rediss://' in REDIS_LOCATION:
+    REDIS_DEFAULT_CACHE_LOCATION += '?ssl_cert_reqs=none'
+    REDIS_RQ_DEFAULT_JOBS_CACHE_LOCATION += '?ssl_cert_reqs=none'
+    REDIS_RQ_HIGH_JOBS_CACHE_LOCATION += '?ssl_cert_reqs=none'
+    REDIS_RQ_LOW_JOBS_CACHE_LOCATION += '?ssl_cert_reqs=none'
+
 CACHES = {
     'default': {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": REDIS_DEFAULT_CACHE_LOCATION,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": None}
         },
         "KEY_PREFIX": "ob-api-"
     },
@@ -202,7 +207,6 @@ CACHES = {
         "LOCATION": REDIS_RQ_DEFAULT_JOBS_CACHE_LOCATION,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": None}
         },
         "KEY_PREFIX": "ob-api-rq-default-job-"
     },
@@ -211,7 +215,6 @@ CACHES = {
         "LOCATION": REDIS_RQ_HIGH_JOBS_CACHE_LOCATION,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": None}
         },
         "KEY_PREFIX": "ob-api-rq-high-job-"
     },
@@ -220,7 +223,6 @@ CACHES = {
         "LOCATION": REDIS_RQ_LOW_JOBS_CACHE_LOCATION,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": None}
         },
         "KEY_PREFIX": "ob-api-rq-low-job-"
     },
