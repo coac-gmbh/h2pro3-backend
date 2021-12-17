@@ -187,7 +187,21 @@ REDIS_RQ_DEFAULT_JOBS_CACHE_LOCATION = '%(redis_location)s/%(db)d' % {'redis_loc
 REDIS_RQ_HIGH_JOBS_CACHE_LOCATION = '%(redis_location)s/%(db)d' % {'redis_location': REDIS_LOCATION, 'db': 2}
 REDIS_RQ_LOW_JOBS_CACHE_LOCATION = '%(redis_location)s/%(db)d' % {'redis_location': REDIS_LOCATION, 'db': 3}
 
+CACHEOPS_REDIS_DB = int(os.environ.get('CACHEOPS_REDIS_DB', '1'))
+
+CACHEOPS_REDIS = '%(redis_location)s/%(db)d' % {'redis_location': REDIS_LOCATION, 'db': CACHEOPS_REDIS_DB}
+
+CACHEOPS_DEFAULTS = {
+    'timeout': 60 * 60
+}
+
+CACHEOPS = {
+    # Don't cache anything automatically
+    '*.*': {},
+}
+
 if 'rediss://' in REDIS_LOCATION:
+    CACHEOPS_REDIS += '?ssl_cert_reqs=none'
     REDIS_DEFAULT_CACHE_LOCATION += '?ssl_cert_reqs=none'
     REDIS_RQ_DEFAULT_JOBS_CACHE_LOCATION += '?ssl_cert_reqs=none'
     REDIS_RQ_HIGH_JOBS_CACHE_LOCATION += '?ssl_cert_reqs=none'
@@ -226,19 +240,6 @@ CACHES = {
         },
         "KEY_PREFIX": "ob-api-rq-low-job-"
     },
-}
-
-CACHEOPS_REDIS_DB = int(os.environ.get('CACHEOPS_REDIS_DB', '1'))
-
-CACHEOPS_REDIS = '%(redis_location)s/%(db)d' % {'redis_location': REDIS_LOCATION, 'db': CACHEOPS_REDIS_DB}
-
-CACHEOPS_DEFAULTS = {
-    'timeout': 60 * 60
-}
-
-CACHEOPS = {
-    # Don't cache anything automatically
-    '*.*': {},
 }
 
 RQ_QUEUES = {
