@@ -352,6 +352,9 @@ else:
     }
 
 if IS_PRODUCTION:
+    # Instead of creating one database connection per request and killing it afterwards,
+    # reuse the connections for 5 minutes
+    DATABASES['default']['CONN_MAX_AGE'] = 300
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
 
