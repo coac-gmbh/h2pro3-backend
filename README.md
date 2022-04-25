@@ -155,7 +155,7 @@ Install the Okuna CLI python packages
 pip3 install -r requirements-cli-only.txt
 ```
 
-**_NOTE:_**  if you have conflicts running this command, you may have conflicts installing dependencies, so you can create a virtual environment in the 'venv' folder, after activating it, run the command again
+**_NOTE:_**  if you have conflicts running this command, you may have conflicts installing dependencies, so you can create a virtual environment in the 'venv' folder and after activating it, run the command again
 
 #### Available commands
 
