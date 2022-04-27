@@ -23,3 +23,15 @@ FIREBASE_CREDENTIALS_PATH = os.environ.get(
     'FIREBASE_CREDENTIALS_PATH',
     os.path.join(BASE_DIR, 'local/h2-firebase-adminsdk.json')
 )
+
+# Email Config
+EMAIL_SUBJECT_PREFIX = '[H2Pro3] '
+DEFAULT_FROM_EMAIL = 'H2Pro3 <noreply_h2pro3@coac.de>'
+SERVICE_EMAIL_ADDRESS = 'noreply_h2pro3@coac.de'
+SERVER_EMAIL = 'H2Pro3 <noreply_h2pro3@coac.de>'
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'noreply_h2pro3@coac.de'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+ADMINS = [('Edison', 'edison.arango@coac.de')]
