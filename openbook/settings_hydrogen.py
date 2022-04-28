@@ -5,6 +5,7 @@ HYDROGEN_APPS = [
 ]
 
 BASE_URL = 'https://backend.h2pro3.de'
+WEBAPP_BASE_URL = 'https://h2pro3.de'
 
 INSTALLED_APPS += HYDROGEN_APPS
 
