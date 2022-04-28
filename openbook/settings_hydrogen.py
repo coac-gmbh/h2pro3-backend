@@ -4,6 +4,8 @@ HYDROGEN_APPS = [
     'hydrogen.apps.HydrogenAppConfig',
 ]
 
+BASE_URL = 'https://backend.h2pro3.de'
+
 INSTALLED_APPS += HYDROGEN_APPS
 
 GROUP_WEBSITE_MAX_LENGTH = 200

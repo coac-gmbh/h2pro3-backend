@@ -3430,10 +3430,10 @@ class User(AbstractUser):
         return peekalink_client.peek(link=link)
 
     def _generate_password_reset_link(self, token):
-        return '{0}/api/auth/password/verify?token={1}'.format(settings.EMAIL_HOST, token)
+        return '{0}/api/auth/password/verify?token={1}'.format(settings.BASE_URL, token)
 
     def _send_password_reset_email_with_token(self, password_reset_token):
-        mail_subject = _('Reset your password for Okuna')
+        mail_subject = _('Reset your password for H2Pro3')
         text_content = render_to_string('openbook_auth/email/reset_password.txt', {
             'name': self.profile.name,
             'username': self.username,
