@@ -1,0 +1,35 @@
+language: python
+python:
+- '3.7.0'
+before_install:
+- openssl aes-256-cbc -K $encrypted_2a03bfc35e23_key -iv $encrypted_2a03bfc35e23_iv
+  -in dokku-deploy.key.enc -out .travis/dokku-deploy.key -d
+- chmod +x .travis/deploy.sh
+
+install:
+  - sudo apt-get -y -qq update
+  - sudo apt-get install ffmpeg redis-server libmagic-dev
+  - sudo /etc/init.d/redis-server start
+  - python3 -m venv venv
+  - . venv/bin/activate
+  - set
+  - python3 -m pip install --upgrade pip
+  - python3 -m pip install -r requirements.txt --exists-action i
+
+script: 
+  - . venv/bin/activate
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+  - python3 manage.py test
+  - ./cc-test-reporter after-build --exit-code $?
+deploy:
+    - provider: script
+      script: bash .travis/deploy.sh
+      on:
+        branch: master
+        repo: coac-gmbh/okuna-api
+env:
+  global:
+  - secure: qaP2o05oeOsta3zpPyOc4swjCR4bSNuDsBbLMcpdolzVxc+48KegpOZcJPL80/KUZVV6Xt/5x5zPjD9vFVL3tA99ckIs0wOJDAVRB8yn8U2oJ2SZ94QZ/7OwWFabbmQInqXlqKQjltIYIdErTNtWicmSfOjJWGBlioB0IdzIOXaG2RGXLW21pIsseUwghepzjAKcer9tF5gD1mnbsn4iQ3KMO9zFYTsRrzHQFD2e25CtYhxgyvmUKMy0b5w0piD0+Rp/4857dMdSMH/C4lqGzAn3PXWsLW0yTrzgjoXmLgtnyU2Mb9U6BexvLddT8srD84WOKqAt1mzuovJs4uG/6EyaN3taLrsaK5gXMI3sRv/Hfzp8tDYF8ILt9oLTLyDX3GbzJuoxAAOoz1JBo9aU1I4Ndbk+xxbS5+accrm9/gEphrvwIkHpG+UECMq4bt2wKZl6Jb1dC5sW1TE+gAOZ+1lzxJLCYnDahNA9ggM2zb75yyCcDb1Ur4weTKB3+18myl5+++Fo/oji8ZHGQmT4H1eqn+sOzeV/qaZzHdkyYonZB8xbBuGo4mezL+UixU/hm2D0RjY1dC1UGP1iNjBiN7N9L4uPyDZn5xv+ozsFrAJ5DekfaNaxsg9tSW6hMbWv2CFf5vu+xGdozAP20FjIwC66UzKItBsYSD6h3WEYvFU=
+  - secure: a8XpoomvB77/s41/rTufeL584h5+ys8zKATDV/8FblwM+Dvm0fF7Fd0HOntE4XefD1x63VNxBhJHjpz/hFpgOTulJO7erB/B88b2WPsWc1TKmlTUDiFTHuw2hrcmvD97/7aBwKbQZb51KseAqOpQBXWQCTer63HK8SYEvu/Y6XwlZFrTx+PMt9g2szo56YcYPVbUtVPLyKx6na1BfP63ksmZonVP2NvIpzP5wxGo9dzvUe0uldVQZHa3838RGH7e2mKpAtP61wM0iBnp9xUIkyUgOx07Z8Sezr0TPLMVIj2HOR3KaJHgUBmyOPBl2URk9hslvExgUwUPJHSje3Uw7LmQt+vrrVdDJfXQ6s+3SBeSbsT+Rpux3qxHucR1fruAgHaKz8nyELFB3VPB34xzvqDsp2VAecqvZ2aBN+0eCqa7Mvy9VCw4ac9MMA1jOWcQ7Gm/d0OY41oX4OUp8ZTpa9A2Y/Jw5HJc789ZTRv3gzP3FST/BJBMD8J/QK2FG6LuMyM8cWfirowezSyfvZHQGTa2adRGmbMcxO0B1gQbFHm/QPacOCMdqhTSWUfCFw/sq65HD86X7JqM2DVr7nssP2yF7dlv0UbG8qGHe2VNQg7vK/wmJbLdQ2vGpULFDtRat6uPZ3xLJuTfU00b9vClzgMFdPbGt09/thcUJCB+cZk=

@@ -57,18 +57,22 @@ load_dotenv(verbose=True, dotenv_path=find_dotenv())
 
 # The current execution environment
 ENVIRONMENT = os.environ.get('ENVIRONMENT')
+logger.info(f'ENVIRONMENT is: {ENVIRONMENT}')
 
 if not ENVIRONMENT:
     if 'test' in sys.argv:
         logger.info('No ENVIRONMENT variable found but test detected. Setting ENVIRONMENT=TEST_VALUE')
         ENVIRONMENT = EnvironmentChecker.TEST_VALUE
+        logger.info(f'{ENVIRONMENT} No ENVIRONMENT variable found but test detected. Setting ENVIRONMENT=TEST_VALUE')
     else:
         raise NameError('ENVIRONMENT environment variable is required')
 
 environment_checker = EnvironmentChecker(environment_value=ENVIRONMENT)
 
 # Django SECRET_KEY
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'abc')
+logger.info(f'{SECRET_KEY} is the secret key.')
+
 
 if not SECRET_KEY:
     raise NameError('SECRET_KEY environment variable is required')
