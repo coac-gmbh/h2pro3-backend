@@ -152,8 +152,10 @@ Make sure the following are installed
 Install the Okuna CLI python packages
 
 ```bash
-pip install -r requirements-cli-only.txt
+pip3 install -r requirements-cli-only.txt
 ```
+
+**_NOTE:_**  if you have conflicts running this command, you may have conflicts installing dependencies, so you can create a virtual environment in the 'venv' folder and after activating it, run the command again
 
 #### Available commands
 
@@ -164,8 +166,10 @@ pip install -r requirements-cli-only.txt
 Run the following in your terminal
 
 ```bash
-python okuna-cli.py up-full
+python3 okuna-cli.py up-full
 ```
+
+**_NOTE:_** if you don't use python 3, it may throw errors
 
 🥳 Congrats, you should now have both the whole of Okuna running on port **80**.
 
@@ -318,6 +322,11 @@ When starting okuna-cli for the first time, 3 files will be generated
 ## Available Django commands
 
 A list of official and custom django commands that might come handy.
+
+To run the project, so just run:
+```bash
+docker-compose -f docker-compose-full.yml up
+```
 
 If running the API locally you can execute them as 
 
